@@ -1,0 +1,81 @@
+<!-- history.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mood History</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1><i class="fa-solid fa-book"></i> Mood History</h1>
+    </header>
+
+    <main>
+      <div class="history-controls">
+        <button id="clearBtn"><i class="fa-solid fa-trash"></i> Clear All</button>
+      </div>
+
+      <ul id="history" class="history-list"></ul>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+      <a href="history.html" class="nav-item active"><i class="fa-solid fa-book"></i><span>History</span></a>
+      <a href="settings.html" class="nav-item"><i class="fa-solid fa-cogs"></i><span>Settings</span></a>
+    </nav>
+  </div>
+
+  <script>
+    function displayHistory() {
+      const history = JSON.parse(localStorage.getItem("moodHistory")) || [];
+      const list = document.getElementById("history");
+      list.innerHTML = "";
+
+      if (history.length === 0) {
+        list.innerHTML = "<li class='empty'><i class='fa-regular fa-face-frown'></i> No mood history found.</li>";
+        return;
+      }
+
+      history.slice().reverse().forEach((entry, i) => {
+        const realIndex = history.length - 1 - i;
+        const item = document.createElement("li");
+        item.innerHTML = `
+          <div class="history-entry">
+            <div class="history-content">
+              <strong>${entry.date}</strong>
+              <span class="emoji">${entry.mood}</span>
+              <p>${entry.note}</p>
+            </div>
+            <div class="entry-buttons">
+              <a href="edit.html?index=${realIndex}" class="entry-btn edit" title="Edit"><i class="fa-solid fa-pen"></i></a>
+              <button onclick="deleteMood(${realIndex})" class="entry-btn delete" title="Delete"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>`;
+        list.appendChild(item);
+      });
+    }
+
+    function deleteMood(index) {
+      if (confirm("Are you sure you want to delete this mood entry?")) {
+        let history = JSON.parse(localStorage.getItem("moodHistory")) || [];
+        history.splice(index, 1);
+        localStorage.setItem("moodHistory", JSON.stringify(history));
+        displayHistory();
+      }
+    }
+
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      if (confirm("Clear all mood history?")) {
+        localStorage.removeItem("moodHistory");
+        displayHistory();
+      }
+    });
+
+    window.onload = displayHistory;
+  </script>
+</body>
+</html>
