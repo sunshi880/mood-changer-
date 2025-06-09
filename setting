@@ -1,0 +1,113 @@
+<!-- settings.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings - Mood Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="settings-container">
+    <header>
+      <h1><i class="fa-solid fa-cogs"></i> Settings</h1>
+    </header>
+
+    <main>
+      <section>
+        <h2>App Preferences</h2>
+
+        <div class="setting-item">
+          <label for="themeToggle">Dark Mode</label>
+          <input type="checkbox" id="themeToggle" />
+        </div>
+
+        <div class="setting-item">
+          <label for="reminderToggle">Enable Daily Reminder</label>
+          <input type="checkbox" id="reminderToggle" />
+        </div>
+
+        <div class="setting-item">
+          <label for="emojiSelect">Mood Icon</label>
+          <select id="emojiSelect">
+            <option value="😊">😊 Happy</option>
+            <option value="😔">😔 Sad</option>
+            <option value="😡">😡 Angry</option>
+            <option value="😴">😴 Tired</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="languageSelect">Language</label>
+          <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="ur">Urdu</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <button id="clearHistory">Clear Mood History</button>
+        </div>
+
+        <div class="setting-item">
+          <button id="resetStreak">Reset Streak</button>
+        </div>
+
+        <div class="setting-item">
+          <p>App Version: 1.0.0</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+      <a href="history.html" class="nav-item"><i class="fa-solid fa-book"></i><span>History</span></a>
+      <a href="settings.html" class="nav-item active"><i class="fa-solid fa-cogs"></i><span>Settings</span></a>
+    </nav>
+  </div>
+
+  <script>
+    document.getElementById("themeToggle").addEventListener("change", (e) => {
+      if (e.target.checked) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("theme", "light");
+      }
+    });
+
+    window.onload = function () {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("themeToggle").checked = true;
+      }
+    };
+
+    document.getElementById("reminderToggle").addEventListener("change", (e) => {
+      alert(e.target.checked ? "Daily reminder enabled." : "Daily reminder disabled.");
+    });
+
+    document.getElementById("clearHistory").addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear your mood history?")) {
+        localStorage.removeItem("moodHistory");
+        alert("Mood history cleared!");
+      }
+    });
+
+    document.getElementById("resetStreak").addEventListener("click", () => {
+      if (confirm("Are you sure you want to reset your streak?")) {
+        localStorage.removeItem("streak");
+        localStorage.removeItem("lastLogDate");
+        alert("Streak reset!");
+      }
+    });
+
+    document.getElementById("languageSelect").addEventListener("change", (e) => {
+      alert("Language switched to: " + e.target.value);
+    });
+  </script>
+</body>
+</html>
