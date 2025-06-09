@@ -1,0 +1,68 @@
+<!-- edit.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edit Mood</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1><i class="fa-solid fa-pen-to-square"></i> Edit Mood</h1>
+    </header>
+
+    <main>
+      <div class="mood-grid">
+        <span data-mood="😊">😊</span>
+        <span data-mood="😐">😐</span>
+        <span data-mood="😢">😢</span>
+        <span data-mood="😡">😡</span>
+        <span data-mood="😴">😴</span>
+        <span data-mood="😍">😍</span>
+      </div>
+
+      <textarea id="note" placeholder="Edit your note..."></textarea>
+      <button id="updateBtn"><i class="fa-solid fa-check"></i> Update Mood</button>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+      <a href="history.html" class="nav-item active"><i class="fa-solid fa-book"></i><span>History</span></a>
+    </nav>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const index = parseInt(urlParams.get('index'));
+
+    let history = JSON.parse(localStorage.getItem("moodHistory")) || [];
+    let selectedMood = history[index].mood;
+    let note = history[index].note;
+
+    document.getElementById("note").value = note;
+    document.querySelectorAll(".mood-grid span").forEach(span => {
+      if (span.dataset.mood === selectedMood) {
+        span.classList.add("selected");
+      }
+
+      span.addEventListener("click", () => {
+        document.querySelectorAll(".mood-grid span").forEach(s => s.classList.remove("selected"));
+        span.classList.add("selected");
+        selectedMood = span.dataset.mood;
+      });
+    });
+
+    document.getElementById("updateBtn").addEventListener("click", () => {
+      const updatedNote = document.getElementById("note").value;
+      history[index].mood = selectedMood;
+      history[index].note = updatedNote;
+      localStorage.setItem("moodHistory", JSON.stringify(history));
+      alert("Mood updated!");
+      window.location.href = "history.html";
+    });
+  </script>
+</body>
+</html>
