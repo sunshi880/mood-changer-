@@ -1,0 +1,41 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mood Tracker App</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1><i class="fa-solid fa-face-smile"></i> Mood Tracker</h1>
+    </header>
+
+    <main>
+      <h2>How are you feeling today?</h2>
+      <div class="mood-grid">
+        <span data-mood="😊">😊</span>
+        <span data-mood="😐">😐</span>
+        <span data-mood="😢">😢</span>
+        <span data-mood="😡">😡</span>
+        <span data-mood="😴">😴</span>
+        <span data-mood="😍">😍</span>
+      </div>
+
+      <textarea id="note" placeholder="Write something about your mood..."></textarea>
+      <button id="saveBtn"><i class="fa-solid fa-check"></i> Save Mood</button>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i><span>Home</span></a>
+      <a href="history.html" class="nav-item"><i class="fa-solid fa-book"></i><span>History</span></a>
+      <a href="settings.html" class="nav-item"><i class="fa-solid fa-cogs"></i><span>Settings</span></a>
+    </nav>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
