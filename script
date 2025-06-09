@@ -1,0 +1,34 @@
+let selectedMood = "";
+
+document.querySelectorAll(".mood-grid span").forEach(span => {
+  span.addEventListener("click", () => {
+    document.querySelectorAll(".mood-grid span").forEach(s => s.classList.remove("selected"));
+    span.classList.add("selected");
+    selectedMood = span.dataset.mood;
+  });
+});
+
+document.getElementById("saveBtn").addEventListener("click", () => {
+  if (!selectedMood) {
+    alert("Please select your mood.");
+    return;
+  }
+
+  const note = document.getElementById("note").value;
+  const date = new Date().toLocaleDateString();
+
+  const moodEntry = {
+    mood: selectedMood,
+    note,
+    date
+  };
+
+  let history = JSON.parse(localStorage.getItem("moodHistory")) || [];
+  history.push(moodEntry);
+  localStorage.setItem("moodHistory", JSON.stringify(history));
+
+  alert("Mood saved!");
+  document.getElementById("note").value = "";
+  selectedMood = "";
+  document.querySelectorAll(".mood-grid span").forEach(s => s.classList.remove("selected"));
+});
